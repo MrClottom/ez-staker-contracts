@@ -10,11 +10,24 @@
     "type": "git",
     "url": "git+https://github.com/MrClottom/ez-staker-contracts.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "hex",
+    "ez-staker",
+    "abi"
+  ],
+  "author": "Philippe Dumonet",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/MrClottom/ez-staker-contracts/issues"
   },
-  "homepage": "https://github.com/MrClottom/ez-staker-contracts#readme"
+  "homepage": "https://github.com/MrClottom/ez-staker-contracts#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^3.3.0-solc-0.7",
+    "safe-qmath": "^1.0.0"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.9"
+  }
 }
