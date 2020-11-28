@@ -1,12 +1,11 @@
 {
   "name": "ez-staker-contracts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "files": [
     "abis/*.json",
     "src/**"
   ],
   "description": "Ez-Staker relevant abis and utils",
-  "main": "index.js",
   "scripts": {
     "test": "npx truffle test",
     "build": "npx truffle compile && npx ./scripts/build-main.js"
