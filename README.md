@@ -10,17 +10,20 @@ contracts. Ez-Staker is a smart contract building on top of the Hex contract so
 some Hex utilities are included in this repo / package as well.
 
 
-### 1. Installation
+### 1 Installation
 ```
 npm i ez-staker-contracts
 ```
 This will install a node package containing abis, addresses and specific
 javascript utility functions.
 
-### 2. `HexTransferable.sol` - Contract Specs
+### 2 Contract Specs
+#### 2.1 `HexTransferable.sol`
 This is the main contract that does the staking and collects the fee. This
 contract implements the standard `IERC721Enumerable` interface as documented
 [here](https://docs.openzeppelin.com/contracts/3.x/api/token/erc721#IERC721Enumerable).
+The address for this contract can be found in `src/uitls/addresses.json` in
+the attribute `[network].ezStaker`
 * `function stake(uint256 totalAmount, uint256 stakeDays, uint192 expectedFee)`
 
   This function stakes hex tokens for the `msg.sender` and mints an ERC-721
@@ -70,3 +73,22 @@ contract implements the standard `IERC721Enumerable` interface as documented
 
   This event is emitted when the fee is changed. When the fee is set `newFee`
   will represent the new fee.
+
+#### 2.2 `HexMock.sol`
+This contract is deployed to testnets as it is only for testing purposes. 
+The address for this contract can be found in `src/uitls/addresses.json` in
+the attribute `[network].hexMock`. This mock only provides the basic ERC20
+functions as well as the minimum necessary methods to simulate the mainnet Hex
+contract. Note this contract has `18` decimals instead of the `8` of mainnet
+Hex.
+
+* `function openFaucet()` 
+
+  mints `100 HEX` for the `msg.sender`. Anyone can call this function an unlimited
+  amount of times.
+
+* `function stake(uint256 newStakedHearts, uint256 newStakedDays)`
+
+  creates a dummy stake which can instantly be unstaked. The unstake value is
+  `2% / day` of the principal (non-compounding).
+  `stakeReward = stakeAmount * (1 + 0.2 * stakeDays)`
