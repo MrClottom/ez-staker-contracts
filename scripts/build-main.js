@@ -7,7 +7,7 @@
     return JSON.parse(fs.readFileSync(fp, { encoding: 'utf8', flag: 'r' }))
   }
 
-  const targetContracts = ['IHex', 'IFeeRecipient', 'HexTransferable']
+  const targetContracts = ['IHex', 'IFeeRecipient', 'HexTransferable', 'HexMock']
 
   targetContracts.forEach((target) => {
     const { contractName, abi } = loadJson(`./build/contracts/${target}.json`)

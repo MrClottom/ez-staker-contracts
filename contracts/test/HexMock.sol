@@ -51,4 +51,8 @@ contract HexMock is ERC20 {
         _mint(msg.sender, stakeLists[msg.sender][stakeIndex].stakedHearts);
         stakeLists[msg.sender][stakeIndex].stakedHearts = 0;
     }
+
+    function openFaucet() external {
+        _mint(msg.sender, 100 ether);
+    }
 }
