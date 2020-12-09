@@ -1,6 +1,6 @@
 {
   "name": "ez-staker-contracts",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "files": [
     "abis/*.json",
     "src/**"
@@ -29,7 +29,7 @@
   "homepage": "https://github.com/MrClottom/ez-staker-contracts#readme",
   "dependencies": {
     "@openzeppelin/contracts": "^3.3.0-solc-0.7",
-    "safe-qmath": "^1.0.0"
+    "safe-qmath": "^2.0.0"
   },
   "devDependencies": {
     "@openzeppelin/test-helpers": "^0.5.9"

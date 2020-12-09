@@ -2,15 +2,17 @@
 pragma solidity ^0.7.1;
 
 import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
+import '@openzeppelin/contracts/math/SafeMath.sol';
 import './IHex.sol';
 import './lib/fee/FeeTaker.sol';
 import './lib/fee/FeeMath.sol';
 
 contract HexTransferable is ERC721, FeeTaker {
     using FeeMath for uint256;
+    using SafeMath for uint256;
 
     IHex public hexToken;
-    uint256 public stakesOpened = 0;
+    uint256 public stakesOpened;
 
     constructor(IHex hexToken_, uint192 startFee)
         FeeTaker(startFee, hexToken_)
@@ -47,7 +49,7 @@ contract HexTransferable is ERC721, FeeTaker {
 
         uint256 balanceAfter = hexToken.balanceOf(address(this));
 
-        hexToken.transfer(msg.sender, balanceAfter - balanceBefore);
+        hexToken.transfer(msg.sender, balanceAfter.sub(balanceBefore));
     }
 
     function _stake(uint256 stakeAmount, uint256 stakeDays) internal {

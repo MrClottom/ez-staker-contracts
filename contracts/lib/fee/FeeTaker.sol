@@ -15,12 +15,12 @@ abstract contract FeeTaker is Ownable {
 
     IERC20 public mainToken;
     uint192 public fee;
-    uint256 public collectedFees = 0;
+    uint256 public collectedFees;
     bool public sendFeeToOwner;
 
     event FeeSet(uint192 newFee);
 
-    constructor(uint192 startFee, IERC20 mainToken_) {
+    constructor(uint192 startFee, IERC20 mainToken_) Ownable() {
         _setFee(startFee);
         mainToken = mainToken_;
     }
@@ -33,7 +33,7 @@ abstract contract FeeTaker is Ownable {
     function withdrawFee(uint256 amount) external onlyOwner {
         require(amount <= collectedFees, 'Insufficient funds available');
 
-        collectedFees = collectedFees.sub(amount);
+        collectedFees -= amount;
         mainToken.transfer(owner(), amount);
     }
 
