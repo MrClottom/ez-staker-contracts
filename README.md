@@ -22,8 +22,8 @@ javascript utility functions.
 This is the main contract that does the staking and collects the fee. This
 contract implements the standard `IERC721Enumerable` interface as documented
 [here](https://docs.openzeppelin.com/contracts/3.x/api/token/erc721#IERC721Enumerable).
-The address for this contract can be found in `src/uitls/addresses.json` in
-the attribute `[network].ezStaker`
+The address for this contract can be found in `utils` under the attribute
+`addresses[network].ezStaker`
 * `function stake(uint256 totalAmount, uint256 stakeDays, uint192 expectedFee)`
 
   This function stakes hex tokens for the `msg.sender` and mints an ERC-721
@@ -75,9 +75,9 @@ the attribute `[network].ezStaker`
   will represent the new fee.
 
 #### 2.2 `HexMock.sol`
-This contract is deployed to testnets as it is only for testing purposes. 
-The address for this contract can be found in `src/uitls/addresses.json` in
-the attribute `[network].hexMock`. This mock only provides the basic ERC20
+This contract is deployed to testnets as it is only for testing purposes.
+The address for this contract can be found in `utils` in the attribute
+`addresses[network].hexMock`. This mock only provides the basic ERC20
 functions as well as the minimum necessary methods to simulate the mainnet Hex
 contract. Note this contract has `18` decimals instead of the `8` of mainnet
 Hex.
