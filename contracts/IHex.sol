@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.1;
 
-import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import './IFullERC20.sol';
 
 // Hex interface
 
@@ -31,7 +31,7 @@ struct GlobalsStore {
 }
 */
 
-interface IHex is IERC20 {
+interface IHex is IFullERC20 {
     event StakeStart(
         uint256 data0,
         address indexed stakerAddr,
