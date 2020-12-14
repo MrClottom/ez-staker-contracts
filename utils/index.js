@@ -5,7 +5,7 @@ module.exports = {
     },
     ropsten: {
       hexToken: '0x39985fe8a94351CBf838A2022b181483B43989D9',
-      ezStaker: '0x703772f4338b5b5C196Ce2Fad32a4C2D1153d621'
+      ezStaker: '0xE777B579cb82c65C2ed76480a35199c98F3C0901'
     }
   }
 }
