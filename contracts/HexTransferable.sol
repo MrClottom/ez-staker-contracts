@@ -16,7 +16,7 @@ contract HexTransferable is ERC721, FeeTaker {
 
     constructor(IHex hexToken_, uint192 startFee)
         FeeTaker(startFee, hexToken_)
-        ERC721('Hex stakes', 'HXS')
+        ERC721('crispy.finance tokenized Hex stakes', 'HXS')
     {
         hexToken = hexToken_;
     }
