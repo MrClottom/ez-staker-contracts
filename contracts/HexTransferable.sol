@@ -12,7 +12,7 @@ contract HexTransferable is ERC721, FeeTaker {
     using SafeMath for uint256;
 
     IHex public hexToken;
-    uint256 public stakesOpened;
+    uint256 public stakesOpen;
 
     constructor(IHex hexToken_, uint192 startFee)
         FeeTaker(startFee, hexToken_)
@@ -35,20 +35,25 @@ contract HexTransferable is ERC721, FeeTaker {
         _stake(stakeAmount, stakeDays);
     }
 
-    function unstake(uint256 stakeId) external {
+    function unstake(uint256 stakeId, uint256 stakeIndex) external {
         require(
             ownerOf(stakeId) == msg.sender,
-            'Must own tokenized stake to unstake'
+            'Must own stake to unstake'
         );
         _burn(stakeId);
 
+        uint256 unstakeReward = _unstake(stakeId, stakeIndex);
+        hexToken.transfer(msg.sender, unstakeReward);
+    }
+
+    function _unstake(uint256 stakeId, uint256 stakeIndex) internal {
         uint256 balanceBefore = hexToken.balanceOf(address(this));
 
-        (uint40 internalStakeId,,,,,,) = hexToken.stakeLists(address(this), stakeId);
-        hexToken.stakeEnd(stakeId, internalStakeId);
+        hexToken.stakeEnd(stakeIndex, stakeId);
 
         uint256 balanceAfter = hexToken.balanceOf(address(this));
 
+        return balanceAfter.sub(balanceBefore);
         hexToken.transfer(msg.sender, balanceAfter.sub(balanceBefore));
     }
 
@@ -57,6 +62,10 @@ contract HexTransferable is ERC721, FeeTaker {
         require(stakeDays > 0, 'Insufficient stake days');
 
         hexToken.stakeStart(stakeAmount, stakeDays);
-        _mint(msg.sender, stakesOpened++);
+        (uint40 internalStakeId,,,,,,) = hexToken.stakeLists(
+            address(this),
+            stakesOpen++
+        );
+        _mint(msg.sender, internalStakeId);
     }
 }
