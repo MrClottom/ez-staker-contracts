@@ -88,4 +88,9 @@ interface IHex is IFullERC20 {
     );
     function stakeCount(address stakerAddr) external view returns (uint256);
     function currentDay() external view returns (uint256);
+    function dailyData(uint256 day) external view returns (
+        uint72 dayPayoutTotal,
+        uint72 dayStakeSharesTotal,
+        uint56 dayUnclaimedSatoshisTotal
+    );
 } 
