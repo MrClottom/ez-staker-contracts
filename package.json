@@ -1,11 +1,12 @@
 {
   "name": "ez-staker-contracts",
-  "version": "1.7.1",
+  "version": "2.0.0",
   "files": [
     "abis/*.json",
-    "utils/**"
+    "utils/**",
+    "contracts/**"
   ],
-  "description": "Ez-Staker relevant abis and utils",
+  "description": "Ez-Staker relevant abis, contracts and utilities",
   "scripts": {
     "test": "npx truffle test",
     "build": "npx truffle compile && npx ./scripts/build-main.js"
@@ -14,13 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/MrClottom/ez-staker-contracts.git"
   },
-  "keywords": [
-    "solidity",
-    "ethereum",
-    "hex",
-    "ez-staker",
-    "abi"
-  ],
+  "keywords": [ "solidity", "ethereum", "hex", "crispy-finance", "abi", "crispy", "staking" ],
   "author": "Philippe Dumonet",
   "license": "ISC",
   "bugs": {
