@@ -6,14 +6,15 @@ import '@openzeppelin/contracts/math/SafeMath.sol';
 import './IHex.sol';
 import './lib/fee/FeeTaker.sol';
 import './lib/fee/FeeMath.sol';
+import './IHexTransferable.sol';
 
-contract HexTransferable is ERC721, FeeTaker {
+contract HexTransferable is IHexTransferable, ERC721, FeeTaker {
     using FeeMath for uint256;
     using SafeMath for uint256;
 
     IHex public hexToken;
 
-    uint256 public totalIssuedTokens;
+    uint256 public override totalIssuedTokens;
 
     // two-way mapping of hex stake indices to tokenId
     mapping(uint256 => uint256) internal _tokenIdToStakeIndex;
@@ -32,6 +33,7 @@ contract HexTransferable is ERC721, FeeTaker {
 
     function stake(uint256 totalAmount, uint256 stakeDays, uint192 expectedFee)
         external
+        override
         feeMatch(expectedFee)
         returns (uint256)
     {
@@ -42,7 +44,7 @@ contract HexTransferable is ERC721, FeeTaker {
         return _stake(stakeAmount, stakeDays);
     }
 
-    function unstake(uint256 tokenId) external {
+    function unstake(uint256 tokenId) external override {
         require(
             ownerOf(tokenId) == msg.sender,
             'Must own stake to unstake'
@@ -55,11 +57,11 @@ contract HexTransferable is ERC721, FeeTaker {
         _unstake(stakeIndex, stakeId);
     }
 
-    function getStakeIndex(uint256 tokenId) public view returns (uint256) {
+    function getStakeIndex(uint256 tokenId) public override view returns (uint256) {
         return _tokenIdToStakeIndex[tokenId];
     }
 
-    function getTokenId(uint256 stakeIndex) public view returns (uint256) {
+    function getTokenId(uint256 stakeIndex) public override view returns (uint256) {
         return _stakeIndexToTokenId[stakeIndex];
     }
 
@@ -86,7 +88,7 @@ contract HexTransferable is ERC721, FeeTaker {
         hexToken.transfer(msg.sender, unstakeReward);
 
         if (stakeIndex != totalSupply()) {
-            uint256 topTokenId = _stakeIndexToTokenId[totalSupply()];
+            uint256 topTokenId = getTokenId(totalSupply());
             _tokenIdToStakeIndex[topTokenId] = stakeIndex;
             _stakeIndexToTokenId[stakeIndex] = topTokenId;
         }
