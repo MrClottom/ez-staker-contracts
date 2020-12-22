@@ -82,7 +82,7 @@ functions as well as the minimum necessary methods to simulate the mainnet Hex
 contract. Note this contract has `18` decimals instead of the `8` of mainnet
 Hex.
 
-* `function openFaucet()` 
+* `function mint()` 
 
   mints `100 HEX` for the `msg.sender`. Anyone can call this function an unlimited
   amount of times.

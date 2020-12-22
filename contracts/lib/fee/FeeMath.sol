@@ -13,7 +13,7 @@ library FeeMath {
         pure
         returns (uint256 leftOver, uint256 resFee)
     {
-        resFee = SafeQMath.intToQ(amount).qmul(fee).qToIntLossy();
+        resFee = fee.qmul(SafeQMath.intToQ(amount)).qToIntLossy();
         leftOver = amount.sub(resFee);
     }
 }

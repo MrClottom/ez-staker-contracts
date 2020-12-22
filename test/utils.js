@@ -1,5 +1,6 @@
 const { BN } = require('@openzeppelin/test-helpers')
 const { assert } = require('chai')
+const { convertFloatToUQInt } = require('safe-qmath/utils')
 
 const expectEqualBN = (x, y, errorMsg) => assert.equal(x.toString(), y.toString(), errorMsg)
 
@@ -41,6 +42,8 @@ const ffBytes = (n) => repByte('ff', n)
 
 const ZERO_ADDRESS = zeroBytes(20)
 
+const hexToHearts = (hexAmount) => convertFloatToUQInt(hexAmount).mul(new BN('100000000')).shrn(64)
+
 module.exports = {
   asBN,
   ffBytes,
@@ -50,5 +53,6 @@ module.exports = {
   expectEqualBN,
   expectTransfer,
   expectERC20Transfer,
-  ZERO_ADDRESS
+  ZERO_ADDRESS,
+  hexToHearts
 }

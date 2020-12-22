@@ -12,7 +12,12 @@ contract HexTransferable is ERC721, FeeTaker {
     using SafeMath for uint256;
 
     IHex public hexToken;
-    uint256 public stakesOpen;
+
+    uint256 public totalIssuedTokens;
+
+    // two-way mapping of hex stake indices to tokenId
+    mapping(uint256 => uint256) internal _tokenIdToStakeIndex;
+    mapping(uint256 => uint256) internal _stakeIndexToTokenId;
 
     constructor(IHex hexToken_, uint192 startFee)
         FeeTaker(startFee, hexToken_)
@@ -26,46 +31,64 @@ contract HexTransferable is ERC721, FeeTaker {
     }
 
     function stake(uint256 totalAmount, uint256 stakeDays, uint192 expectedFee)
-        external feeMatch(expectedFee)
+        external
+        feeMatch(expectedFee)
+        returns (uint256)
     {
         hexToken.transferFrom(msg.sender, address(this), totalAmount);
         (uint256 stakeAmount, uint256 collectedFee) = totalAmount.splitToFee(expectedFee);
 
         _accountFee(collectedFee);
-        _stake(stakeAmount, stakeDays);
+        return _stake(stakeAmount, stakeDays);
     }
 
-    function unstake(uint256 stakeId, uint256 stakeIndex) external {
+    function unstake(uint256 tokenId) external {
         require(
-            ownerOf(stakeId) == msg.sender,
+            ownerOf(tokenId) == msg.sender,
             'Must own stake to unstake'
         );
-        _burn(stakeId);
 
-        uint256 unstakeReward = _unstake(stakeId, stakeIndex);
-        hexToken.transfer(msg.sender, unstakeReward);
+        uint256 stakeIndex = getStakeIndex(tokenId);
+        (uint40 stakeId,,,,,,) = hexToken.stakeLists(address(this), stakeIndex);
+
+        _burn(tokenId);
+        _unstake(stakeIndex, stakeId);
     }
 
-    function _unstake(uint256 stakeId, uint256 stakeIndex) internal {
+    function getStakeIndex(uint256 tokenId) public view returns (uint256) {
+        return _tokenIdToStakeIndex[tokenId];
+    }
+
+    function getTokenId(uint256 stakeIndex) public view returns (uint256) {
+        return _stakeIndexToTokenId[stakeIndex];
+    }
+
+    function _stake(uint256 stakeAmount, uint256 stakeDays)
+        internal
+        returns (uint256)
+    {
+        uint256 newTokenId = totalIssuedTokens++;
+        _tokenIdToStakeIndex[newTokenId] = totalSupply();
+        _stakeIndexToTokenId[totalSupply()] = newTokenId;
+
+        _mint(msg.sender, newTokenId);
+        hexToken.stakeStart(stakeAmount, stakeDays);
+
+        return newTokenId;
+    }
+
+    function _unstake(uint256 stakeIndex, uint40 stakeId) internal {
         uint256 balanceBefore = hexToken.balanceOf(address(this));
-
         hexToken.stakeEnd(stakeIndex, stakeId);
-
         uint256 balanceAfter = hexToken.balanceOf(address(this));
 
-        return balanceAfter.sub(balanceBefore);
-        hexToken.transfer(msg.sender, balanceAfter.sub(balanceBefore));
-    }
+        uint256 unstakeReward = balanceAfter - balanceBefore;
+        hexToken.transfer(msg.sender, unstakeReward);
 
-    function _stake(uint256 stakeAmount, uint256 stakeDays) internal {
-        require(stakeAmount > 0, 'Insufficient stake amount');
-        require(stakeDays > 0, 'Insufficient stake days');
-
-        hexToken.stakeStart(stakeAmount, stakeDays);
-        (uint40 internalStakeId,,,,,,) = hexToken.stakeLists(
-            address(this),
-            stakesOpen++
-        );
-        _mint(msg.sender, internalStakeId);
+        if (stakeIndex != totalSupply()) {
+            uint256 topTokenId = _stakeIndexToTokenId[totalSupply()];
+            _tokenIdToStakeIndex[topTokenId] = stakeIndex;
+            _stakeIndexToTokenId[stakeIndex] = topTokenId;
+        }
     }
 }
