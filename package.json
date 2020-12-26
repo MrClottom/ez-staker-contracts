@@ -1,6 +1,6 @@
 {
   "name": "ez-staker-contracts",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "files": [
     "abis/*.json",
     "utils/**",
