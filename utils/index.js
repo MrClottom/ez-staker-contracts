@@ -5,12 +5,12 @@ module.exports = {
       ezStaker: '0x31936119F47717b1D7e9a8af23803c469Cf2445F'
     },
     ropsten: {
-      hexToken: '0x39985fe8a94351CBf838A2022b181483B43989D9',
-      ezStaker: '0xE777B579cb82c65C2ed76480a35199c98F3C0901'
+      hexToken: '0xBf4E56921B55314aDA601212B088e7489Cca5893',
+      ezStaker: '0xFa8F4381c178aC84f7308cbF0d1CfEcA22e239e9'
     },
     rinkeby: {
-      hexToken: '0x046D90F1614C3732Ce04D866bc9Ef0ae1Cdda509',
-      ezStaker: '0x37D1EbC3Af809b8fADB45DCE7077eFc629b2B5BB'
+      hexToken: '0xdAa3b89De38A6453f508FF3BC5bdC792c166e52d',
+      ezStaker: '0x97de0cCcB158C4d298074bA4fae6a90dc03Aa39d'
     }
   }
 }

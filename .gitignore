@@ -1,3 +1,5 @@
 build
 node_modules
 no-commit
+.tern-port
+*.flat.sol
