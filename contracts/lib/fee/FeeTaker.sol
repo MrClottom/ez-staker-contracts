@@ -6,8 +6,6 @@ import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/math/SafeMath.sol';
 import '@openzeppelin/contracts/utils/Address.sol';
 import './IFeeRecipient.sol';
-import 'safe-qmath/contracts/SafeQMath.sol';
-
 
 abstract contract FeeTaker is Ownable {
     using SafeMath for uint256;
