@@ -1,4 +1,6 @@
-# Ez Staker Contracts
+# Crispy.finance hex staker
+(previously know as `Ez Staker`)
+
 Ez-Staker permits hex holders to tokenize their stakes upon staking.
 Stakes are tokenized as ERC-721 tokens so they can be transfered and
 used in other contracts/protocols. To unstake one must only own the minted
