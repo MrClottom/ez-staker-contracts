@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.1;
 
-import './IFullERC20.sol';
+import "./IFullERC20.sol";
 
 // Hex interface
 
